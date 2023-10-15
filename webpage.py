@@ -7,8 +7,6 @@ from selenium.webdriver.common.by import By
 
 
 # link = "https://www.myntra.com/sweatshirts/allen+solly/allen-solly-mock-collar-front-open-sweatshirt/24572040/buy"
-
-
 def get_data(link):
     try:
         driver = webdriver.Chrome()
