@@ -41,8 +41,6 @@ def get_data(link):
         # except:
         #     print("no further info")
 
-        print(metadata)
-
         itr = 1
 
         for image_tags in driver.find_elements(By.CLASS_NAME, "image-grid-image"):
@@ -60,6 +58,9 @@ def get_data(link):
         with open(os.path.join("data", metadata["productId"], "meta.json"), "w") as f:
             json.dump(metadata, f, indent=4)
 
+        with open("success_links.txt", "a") as f:
+            f.write(link + "\n")
+
     except:
         # append to the text failed links
         with open("failed_links.txt", "a") as f:
@@ -71,14 +72,20 @@ from multiprocessing import Pool
 import time
 
 links = []
-for i in range(1, 30):
+for i in range(600000, 601000):
+
+    # add more zeros in the range to get more data
+    i = str(i).zfill(5)
+    
     links.append(
-        f"https://www.myntra.com/tshirts/calvin+klein+jeans/calvin-klein-jeans-brand-logo-printed-pure-cotton-t-shirt/23832{i}/buy"
+        f"https://www.myntra.com/shirts/park+avenue/park-avenue-slim-fit-checked-pure-cotton-casual-shirt/22{i}/buy"
     )
 
-
 start = time.time()
-with Pool(10) as p:
+
+num_cores = os.cpu_count()
+
+with Pool(num_cores) as p:
     p.map(get_data, links)
 
 print(f"Time taken: {time.time() - start}")
